@@ -10,15 +10,26 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Регистрация</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Авторизация</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Выход</a>
-                </li>
+                @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signUp">Регистрация</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signIn">Авторизация</a>
+                    </li>
+                @endguest
+                @auth
+                    <li class="nav-item">
+                        <p class="nav-link m-0">Здраствуй, {{ Auth::user()->username }}</p>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Личный кабинет</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Выход</a>
+                    </li>
+                @endauth
+
             </ul>
 
         </div>

@@ -11,7 +11,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Выход</a>
+                    <a class="nav-link" href="/admin/users">Пользователи</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/add">Добавить новость</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Выход</a>
                 </li>
             </ul>
 

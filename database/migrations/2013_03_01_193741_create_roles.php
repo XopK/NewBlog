@@ -1,7 +1,9 @@
 <?php
 
+use Database\Seeders\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -11,15 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('news', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('content');
-            $table->string('photo');
-            $table->foreignId('category_id')->references('id')->on('categories');
-            $table->boolean('is_blocked');
+            $table->string('title_role');
             $table->timestamps();
         });
+        Artisan::call('db:seed', ['--class' => UserRole::class]);
     }
 
     /**
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('news');
+        Schema::dropIfExists('roles');
     }
 };

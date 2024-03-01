@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Новость</title>
+    <title>{{ $info->title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -19,39 +19,68 @@
     <x-header></x-header>
     <main>
         <div class="container">
-            <h1 class="my-4">Новость </h1>
-            <p class="text-muted">Опубликовано: 1 Марта, 2023</p>
-            <img src="https://via.placeholder.com/800x400" class="img-fluid mb-3" alt="News Image">
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-                in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible mt-3">
+                    <div class="alert-text">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible mt-3">
+                    <div class="alert-text">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+            @endif
+            <h1 class="my-4">{{ $info->title }}</h1>
+            <p class="text-muted">Опубликовано: {{ date('d.m.Y', strtotime($info->created_at)) }}</p>
+            <img style="max-width: 40%" src="/storage/news/{{ $info->photo }}" class="img-fluid mb-3"
+                alt="{{ $info->photo }}">
+            <p class="card-text">{{ $info->content }}</p>
 
             <div class="my-4">
-                <button type="button" class="btn btn-success d-flex align-items-center"><span
+                <a class="d-flex align-items-center text-decoration-none" href="/news/{{ $info->id }}/like"><span
                         class="material-symbols-outlined">
                         thumb_up
-                    </span><span>123</span></button>
+                    </span>
+                    <h3>{{ $info->LikeCount() }}</h3>
+                </a>
 
             </div>
 
             <h2 class="my-4">Комментарии</h2>
             <div class="card mb-4">
                 <div class="card-body">
-                    <form>
+                    <form method="POST" action="/news/{{ $info->id }}/comment">
+                        @csrf
                         <div class="mb-3">
-                            <textarea class="form-control" rows="3" placeholder="Напишите здесь комментарий"></textarea>
+                            <textarea class="form-control" rows="3" name="comment" placeholder="Напишите здесь комментарий"></textarea>
                         </div>
+                        @error('comment')
+                            <div class="alert alert-danger alert-dismissible">
+                                <div class="alert-text">
+                                    {{ $message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            </div>
+                        @enderror
                         <button type="submit" class="btn btn-warning">Оставить</button>
                     </form>
                 </div>
             </div>
             <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">danya</h5>
-                    <p class="card-text">ХАХАХАХАХ</p>
-                </div>
+                @forelse ($info->comment as $item)
+                    <div class="card-body">
+                        <h5 class="card-title">{{$item->usersComment->username}}</h5>
+                        <p class="card-text">{{$item->comment_text}}</p>
+                    </div>
+                @empty
+                <h1>Пусто</h1>
+                @endforelse
+
             </div>
 
         </div>

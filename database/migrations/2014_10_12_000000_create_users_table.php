@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('email')->unique();
+            $table->foreignId('id_role')->constrained('roles');
             $table->string('password');
             $table->boolean('is_blocked');
             $table->timestamps();

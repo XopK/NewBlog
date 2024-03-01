@@ -17,33 +17,21 @@
     <x-adminheader></x-adminheader>
     <main>
         <div class="container">
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible mt-3">
-                    <div class="alert-text">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                </div>
-            @endif
-            <h1 class="my-3">Все новости</h1>
+            <h1 class="my-3">Все пользователи</h1>
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Заголовок</th>
-                        <th scope="col">Категория</th>
-                        <th scope="col">Дата публикации</th>
+                        <th scope="col">Имя пользователя</th>
+                        <th scope="col">Почта</th>
                         <th scope="col">Статус блокировки</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href="/news">Новость</a></td>
-                        <td>Спорт</td>
-                        <td>01.03.2024</td>
+                        <td>danya22</td>
+                        <td>dmahmutov12@gmail.com</td>
                         <td class="text-success">Нет ограничений</td>
-                        <td><a href="" class="btn btn-danger">Удалить</a></td>
-                        <td><a href="" class="btn btn-warning">Редактировать</a></td>
                         <td><a href="" class="btn btn-success">Заблокировать</a></td>
                     </tr>
                 </tbody>
