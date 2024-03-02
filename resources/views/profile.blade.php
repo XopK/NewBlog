@@ -18,32 +18,56 @@
     <main>
         <div class="container">
             <h1 class="my-4">Личный кабинет </h1>
-            <form>
+            <form method="POST" action="/profile/edit">
+                @csrf
                 <div class="mb-3">
                     <label for="username" class="form-label">Имя пользователя</label>
-                    <input type="text" class="form-control" name="username" value="danya">
+                    <input type="text" class="form-control" name="username" value="{{ Auth::user()->username }}">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Почта</label>
-                    <input type="email" class="form-control" name="email" value="dmahmutov12@gmail.com">
+                    <input type="email" class="form-control" name="email" value="{{ Auth::user()->email }}">
                 </div>
                 <button type="submit" class="btn btn-warning">Сохранить</button>
             </form>
-
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible mt-3">
+                    <div class="alert-text">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+            @endif
             <h2 class="my-4">Комментарии пользователя</h2>
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">News Title</h5>
-                    <p class="card-text">Comment text...</p>
+
+            @forelse ($comments as $comment)
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <a href="/news/{{ $comment->news->id }}">
+                            <h5 class="card-title">{{ $comment->news->title }}</h5>
+                        </a>
+                        <p class="card-text">{{ $comment->comment_text }}</p>
+                    </div>
                 </div>
-            </div>
+            @empty
+                <h1>Пусто</h1>
+            @endforelse
+
+
             <h2 class="my-4">Лайки пользователя</h2>
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">News Title</h5>
-                    <p class="card-text">Liked on <time datetime="2023-02-15">February 15, 2023</time></p>
+            @forelse ($likes as $like)
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <a href="/news/{{ $like->news->id }}">
+                            <h5 class="card-title">{{ $like->news->title }}</h5>
+                        </a>
+                        <p class="card-text">Лайк поставлен: {{ date('d.m.Y', strtotime($like->created_at)) }}</p>
+                    </div>
                 </div>
-            </div>
+            @empty
+                <h1>Пусто</h1>
+            @endforelse
+
         </div>
     </main>
 </body>

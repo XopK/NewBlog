@@ -28,12 +28,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>danya22</td>
-                        <td>dmahmutov12@gmail.com</td>
-                        <td class="text-success">Нет ограничений</td>
-                        <td><a href="" class="btn btn-success">Заблокировать</a></td>
-                    </tr>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->email }}</td>
+                            @if ($user->is_blocked == 0)
+                                <td class="text-success">Нет ограничений</td>
+                            @else
+                                <td class="text-danger">Забанен!</td>
+                            @endif
+                            @if ($user->is_blocked == 0)
+                                <td><a href="/admin/blockUser/{{ $user->id }}"
+                                        class="btn btn-danger">Заблокировать</a>
+                                </td>
+                            @else
+                                <td><a href="/admin/unblockUser/{{ $user->id }}"
+                                        class="btn btn-success">Разблокировать</a></td>
+                            @endif
+                        </tr>
+                    @endforeach
+
                 </tbody>
             </table>
         </div>

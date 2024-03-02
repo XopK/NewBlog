@@ -37,15 +37,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><a href="/news">Новость</a></td>
-                        <td>Спорт</td>
-                        <td>01.03.2024</td>
-                        <td class="text-success">Нет ограничений</td>
-                        <td><a href="" class="btn btn-danger">Удалить</a></td>
-                        <td><a href="" class="btn btn-warning">Редактировать</a></td>
-                        <td><a href="" class="btn btn-success">Заблокировать</a></td>
-                    </tr>
+                    @forelse ($all as $news)
+                        <tr>
+                            <td><a href="/news/{{ $news->id }}">{{ $news->title }}</a></td>
+                            <td>{{ $news->category->name }}</td>
+                            <td>{{ date('d.m.Y', strtotime($news->created_at)) }}</td>
+                            @if ($news->is_blocked == 0)
+                                <td class="text-success">Нет ограничений</td>
+                            @else
+                                <td class="text-danger">Заблокировано!</td>
+                            @endif
+                            <td><a href="/admin/delete/{{ $news->id }}" class="btn btn-danger">Удалить</a></td>
+                            <td><a href="/admin/editNews/{{ $news->id }}" class="btn btn-warning">Редактировать</a>
+                            </td>
+                            @if ($news->is_blocked == 0)
+                                <td><a href="/admin/block/{{ $news->id }}" class="btn btn-danger">Заблокировать</a>
+                                </td>
+                            @else
+                                <td><a href="/admin/unblock/{{ $news->id }}"
+                                        class="btn btn-success">Разблокировать</a></td>
+                            @endif
+
+                        </tr>
+                    @empty
+                    @endforelse
+
                 </tbody>
             </table>
         </div>

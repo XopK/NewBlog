@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\Like;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +22,14 @@ class UserController extends Controller
         Session::flush();
         Auth::logout();
         return redirect("/");
+    }
+
+    public function profile()
+    {
+        $likes = Like::where('user_id', Auth::user()->id)->with('news')->get();
+        $comment = Comment::where('user_id', Auth::user()->id)->with('news')->get();
+
+        return view('profile', ['likes' => $likes, 'comments' => $comment]);
     }
 
     public function sigin_up_valid(Request $request)
@@ -86,5 +96,25 @@ class UserController extends Controller
         } else {
             return redirect()->back()->with('error', 'Ошибка авторизации!');
         }
+    }
+
+    public function edit(Request $request)
+    {
+        $request->validate([
+            "username" => "unique:users,username," . Auth::user()->id,
+            "email" => "unique:users,email," . Auth::user()->id,
+        ], [
+            "username.unique" => "Данный логин занят!",
+            "email.unique" => "Данная почта занята!",
+        ]);
+
+        $user = Auth::user();
+
+        $user->update([
+            'username' => $request->username,
+            'email' => $request->email,
+        ]);
+
+        return redirect()->back()->with('success', 'Данные обновлены!');
     }
 }

@@ -15,7 +15,7 @@ class Comment extends Model
 
     public function news()
     {
-        return $this->hasMany(News::class, 'news_id', 'id');
+        return $this->belongsTo(News::class, 'news_id', 'id');
     }
     public function usersComment()
     {

@@ -16,4 +16,9 @@ class Like extends Model
     {
         return $this->belongsTo(News::class, 'news_id', 'id');
     }
+
+    public function users()
+    {
+        return $this->belongsTo(Like::class);
+    }
 }

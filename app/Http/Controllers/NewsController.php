@@ -15,13 +15,21 @@ class NewsController extends Controller
     {
         $categories = Category::all();
         $latest_news = News::where('is_blocked', 0)->orderBy('created_at', 'desc')->get();
-        return view('index', ['categories' => $categories, 'latest' => $latest_news]);
+        $popular = News::withCount('likeNews')->orderByDesc('like_news_count')->where('is_blocked', 0)->get();
+        return view('index', ['categories' => $categories, 'latest' => $latest_news, 'populars' => $popular]);
     }
 
     public function news($id)
     {
         $news = News::with('comment')->where('id', $id)->first();
         return view('news', ['info' => $news]);
+    }
+
+    public function list($id)
+    {
+        $filter = News::where('category_id', $id)->where('is_blocked', 0)->get();
+        $category = Category::find($id);
+        return view('list', ['filters' => $filter, 'category' => $category]);
     }
 
     public function like($id)

@@ -47,70 +47,22 @@
             <div class="row">
                 <div class="col-8">
                     <div class="row">
-
-                        <div class="col-12 col-md-6">
-                            <div class="card mb-4">
-                                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Новость</h5>
-                                    <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                        Tenetur
-                                        itaque illo aut nihil similique sequi debitis fuga, quos error libero officiis
-                                        vel
-                                        reiciendis repellat laudantium excepturi repudiandae praesentium culpa
-                                        aspernatur!</p>
-                                    <a href="#" class="btn btn-warning">Читать далее...</a>
+                        @forelse ($populars as $popular)
+                            <div class="col-12 col-md-6">
+                                <div class="card mb-4">
+                                    <img src="/storage/news/{{ $popular->photo }}" class="card-img-top"
+                                        alt="{{ $popular->photo }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $popular->title }}</h5>
+                                        <p class="card-text">{{ $popular->content }}</p>
+                                        <a href="/news/{{ $popular->id }}" class="btn btn-warning">Читать далее...</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @empty
+                        @endforelse
 
-                        <div class="col-12 col-md-6">
-                            <div class="card mb-4">
-                                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Новость</h5>
-                                    <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                        Tenetur
-                                        itaque illo aut nihil similique sequi debitis fuga, quos error libero officiis
-                                        vel
-                                        reiciendis repellat laudantium excepturi repudiandae praesentium culpa
-                                        aspernatur!</p>
-                                    <a href="#" class="btn btn-warning">Читать далее...</a>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="col-12 col-md-6">
-                            <div class="card mb-4">
-                                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Новость</h5>
-                                    <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                        Tenetur
-                                        itaque illo aut nihil similique sequi debitis fuga, quos error libero officiis
-                                        vel
-                                        reiciendis repellat laudantium excepturi repudiandae praesentium culpa
-                                        aspernatur!</p>
-                                    <a href="#" class="btn btn-warning">Читать далее...</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <div class="card mb-4">
-                                <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Новость</h5>
-                                    <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                        Tenetur
-                                        itaque illo aut nihil similique sequi debitis fuga, quos error libero officiis
-                                        vel
-                                        reiciendis repellat laudantium excepturi repudiandae praesentium culpa
-                                        aspernatur!</p>
-                                    <a href="#" class="btn btn-warning">Читать далее...</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-3">
@@ -118,7 +70,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Фильтр</h5>
                             @foreach ($categories as $category)
-                                <li class="list-group-item"><a href="#"
+                                <li class="list-group-item"><a href="/list/{{$category->id}}"
                                         class="card-link link-warning ">{{ $category->name }}</a></li>
                             @endforeach
                         </div>

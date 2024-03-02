@@ -20,14 +20,17 @@
                 @endguest
                 @auth
                     <li class="nav-item">
-                        <p class="nav-link m-0">Здраствуй, {{ Auth::user()->username }}</p>
+                        <a class="nav-link" href="/profile">Здраствуй, {{ Auth::user()->username }}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Личный кабинет</a>
-                    </li>
+                    @if (Auth::user()->id_role == 2)
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Админ панель</a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="/logout">Выход</a>
                     </li>
+
                 @endauth
 
             </ul>
